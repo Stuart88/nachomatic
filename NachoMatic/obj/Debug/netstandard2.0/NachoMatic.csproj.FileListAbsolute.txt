@@ -1,0 +1,9 @@
+C:\Users\saitk\Programming\C#\NachoMatic\NachoMatic\bin\Debug\netstandard2.0\NachoMatic.deps.json
+C:\Users\saitk\Programming\C#\NachoMatic\NachoMatic\bin\Debug\netstandard2.0\NachoMatic.dll
+C:\Users\saitk\Programming\C#\NachoMatic\NachoMatic\bin\Debug\netstandard2.0\NachoMatic.pdb
+C:\Users\saitk\Programming\C#\NachoMatic\NachoMatic\obj\Debug\netstandard2.0\NachoMatic.AssemblyInfoInputs.cache
+C:\Users\saitk\Programming\C#\NachoMatic\NachoMatic\obj\Debug\netstandard2.0\NachoMatic.AssemblyInfo.cs
+C:\Users\saitk\Programming\C#\NachoMatic\NachoMatic\obj\Debug\netstandard2.0\NachoMatic.csproj.CoreCompileInputs.cache
+C:\Users\saitk\Programming\C#\NachoMatic\NachoMatic\obj\Debug\netstandard2.0\NachoMatic.dll
+C:\Users\saitk\Programming\C#\NachoMatic\NachoMatic\obj\Debug\netstandard2.0\NachoMatic.pdb
+C:\Users\saitk\Programming\C#\NachoMatic\NachoMatic\obj\Debug\netstandard2.0\NachoMatic.csprojAssemblyReference.cache
