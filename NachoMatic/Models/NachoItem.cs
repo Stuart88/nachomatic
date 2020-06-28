@@ -77,12 +77,6 @@ namespace NachoMatic.Models
                 return new ProcessResult(false, "Can't add any more of this item!");
             }
 
-            //// LIMIT: Non a-la-carte has limits set (e.g. 2-Ingredient meal can only have 1 meat, 1 salsa)
-            //if (!this.IsALaCarte && ReachedLimitForIngredient(ingredient))
-            //{
-            //    return new ProcessResult(false, "Can't add any more of this ingredient!");
-            //}
-
             return AddIngredient();
 
             ProcessResult AddIngredient()
