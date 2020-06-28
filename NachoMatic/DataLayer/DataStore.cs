@@ -79,7 +79,7 @@ namespace NachoMatic.DataLayer
             }
         };
 
-        public static DbSet<BasicItem> MenuItems = new DbSet<BasicItem>
+        public static DbSet<BasicItem> BasicItems = new DbSet<BasicItem>
         {
             new BasicItem(1)
             {

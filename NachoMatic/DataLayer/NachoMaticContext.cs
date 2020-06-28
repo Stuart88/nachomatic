@@ -19,7 +19,7 @@ namespace NachoMatic.DataLayer
 
         public NachoMaticContext()
         {
-            this.BasicItems = DataStore.MenuItems;
+            this.BasicItems = DataStore.BasicItems;
             this.NachoItems = DataStore.NachoItems;
             this.Ingredients = DataStore.Ingredients;
             this.IngredientCategories = DataStore.IngredientCategories;
@@ -35,7 +35,7 @@ namespace NachoMatic.DataLayer
             // This obviously isn't ideal, but I don't think the aim of this challenge is to write an entire ORM system from scratch!
             // I would normally use Entity Framework, but that would make this part of the challenge so easy that it didn't seem correct to use it.
 
-            DataStore.MenuItems = new DbSet<BasicItem>(this.BasicItems);
+            DataStore.BasicItems = new DbSet<BasicItem>(this.BasicItems);
             DataStore.NachoItems = new DbSet<NachoItem>(this.NachoItems);
             DataStore.NachoItems = new DbSet<NachoItem>(this.NachoItems);
             DataStore.IngredientCategories = new DbSet<IngredientCategory>(this.IngredientCategories);
