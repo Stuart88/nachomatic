@@ -96,7 +96,7 @@ namespace NachoMatic.Models
         /// Returns ingredient items that will not need to be paid for. Only applies to a-la-carte menu items.
         /// </summary>
         /// <returns></returns>
-        public List<Ingredient> IngredientsNotPayingFor()
+        internal List<Ingredient> IngredientsNotPayingFor()
         {
             if (this.IsALaCarte)
             {
@@ -125,7 +125,7 @@ namespace NachoMatic.Models
         /// Returns ingredient items that will need to be paid for. Only applies to a-la-carte menu items.
         /// </summary>
         /// <returns></returns>
-        public List<Ingredient> IngredientsToPayFor()
+        internal List<Ingredient> IngredientsToPayFor()
         {
             // "For the purpose of calculating the price, assume the base
             // ingredients are free and the 3 included ingredients consist
