@@ -148,9 +148,17 @@ namespace NachoMatic.Models
 
         public ProcessResult RemoveIngredient(Ingredient ingredient)
         {
-            bool success = this.SelectedIngredients.Remove(ingredient);
+            Ingredient toRemove = this.SelectedIngredients.FirstOrDefault(i => i == ingredient);
 
-            return new ProcessResult(success);
+            if (toRemove != null)
+            {
+                this.SelectedIngredients.Remove(toRemove);
+                return new ProcessResult(true);
+            }
+            else
+            {
+                return new ProcessResult(false, "This ingredient was not added to this menu item.");
+            }
         }
 
         /// <summary>

@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NachoMatic.DataLayer;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NachoMatic.Models;
 using NachoMatic.OrderHandling;
-using System.Linq;
-using System.Runtime.Remoting.Contexts;
+using System.Collections.Generic;
 
 namespace Tests
 {
@@ -18,15 +15,47 @@ namespace Tests
         {
             UnitTestItems.ClearSelectedIngredients();
 
-            var nacho = UnitTestItems.NachoItems.TwoIngredientNacho;                             // Allowed: 1 meat, 1 salsa
+            NachoItem nacho = UnitTestItems.NachoItems.TwoIngredientNacho; // Allowed: 1 meat, 1 salsa
 
-            _ = nacho.AddIngredient(UnitTestItems.Ingredients.Steak);                            //Add 1 meat
-            _ = nacho.AddIngredient(UnitTestItems.Ingredients.Queso);                            //Add 1 Salsa
+            _ = nacho.AddIngredient(UnitTestItems.Ingredients.Steak); //Add 1 meat
+            _ = nacho.AddIngredient(UnitTestItems.Ingredients.Queso); //Add 1 Salsa
 
-            ProcessResult result = nacho.AddIngredient(UnitTestItems.Ingredients.GratedCheese);  // Try to add a topping
+            ProcessResult result = nacho.AddIngredient(UnitTestItems.Ingredients.GratedCheese); // Try to add a topping
 
             Assert.IsFalse(result.Success);
             Assert.AreEqual("Can't add any more ingredients!", result.Message);
+
+            UnitTestItems.ClearSelectedIngredients();
+        }
+
+        [TestMethod]
+        public void AddIncompleteItemToOrder()
+        {
+            UnitTestItems.ClearSelectedIngredients();
+
+            NachoItem nacho = UnitTestItems.NachoItems.TwoIngredientNachoInBowl; // Create nacho item
+            // Don't select any ingredients!
+
+            Order order = new Order(); // Create an order and add the item
+            ProcessResult result = order.AddItem(nacho);
+
+            Assert.IsFalse(result.Success);
+            Assert.AreEqual("Order incomplete! Not enough ingredients.", result.Message);
+        }
+
+        [TestMethod]
+        public void AddItemToOrder()
+        {
+            UnitTestItems.ClearSelectedIngredients();
+
+            NachoItem nacho = UnitTestItems.NachoItems.TwoIngredientNachoInBowl;
+            nacho.AddIngredient(UnitTestItems.Ingredients.Chicken);
+            nacho.AddIngredient(UnitTestItems.Ingredients.GreenSalsa);
+
+            Order order = new Order();
+            ProcessResult result = order.AddItem(nacho);
+
+            Assert.IsTrue(result.Success);
 
             UnitTestItems.ClearSelectedIngredients();
         }
@@ -36,13 +65,13 @@ namespace Tests
         {
             UnitTestItems.ClearSelectedIngredients();
 
-            var nacho = UnitTestItems.NachoItems.ThreeIngredientNacho;                              // Allowed: 1 meat, 1 salsa, 1 topping
+            NachoItem nacho = UnitTestItems.NachoItems.ThreeIngredientNacho; // Allowed: 1 meat, 1 salsa, 1 topping
 
-            _ = nacho.AddIngredient(UnitTestItems.Ingredients.Steak);                               // Add 1 meat
-            _ = nacho.AddIngredient(UnitTestItems.Ingredients.Queso);                               // Add 1 salsa
-            _ = nacho.AddIngredient(UnitTestItems.Ingredients.GratedCheese);                        // Add 1 topping
+            _ = nacho.AddIngredient(UnitTestItems.Ingredients.Steak); // Add 1 meat
+            _ = nacho.AddIngredient(UnitTestItems.Ingredients.Queso); // Add 1 salsa
+            _ = nacho.AddIngredient(UnitTestItems.Ingredients.GratedCheese); // Add 1 topping
 
-            ProcessResult result = nacho.AddIngredient(UnitTestItems.Ingredients.GreenSalsa);       // Try to add another salsa
+            ProcessResult result = nacho.AddIngredient(UnitTestItems.Ingredients.GreenSalsa); // Try to add another salsa
 
             Assert.IsFalse(result.Success);
             Assert.AreEqual("Can't add any more ingredients!", result.Message);
@@ -50,17 +79,16 @@ namespace Tests
             UnitTestItems.ClearSelectedIngredients();
         }
 
-       
         [TestMethod]
         public void AddSecondMeatItem()
         {
             UnitTestItems.ClearSelectedIngredients();
 
-            var nacho = UnitTestItems.NachoItems.TwoIngredientNacho;                        // Allowed: 1 meat, 1 salsa
+            NachoItem nacho = UnitTestItems.NachoItems.TwoIngredientNacho; // Allowed: 1 meat, 1 salsa
 
-            _ = nacho.AddIngredient(UnitTestItems.Ingredients.Steak);                       // Add 1 meat item
+            _ = nacho.AddIngredient(UnitTestItems.Ingredients.Steak); // Add 1 meat item
 
-            ProcessResult result = nacho.AddIngredient(UnitTestItems.Ingredients.Chicken);  // Try to add a second meat item
+            ProcessResult result = nacho.AddIngredient(UnitTestItems.Ingredients.Chicken); // Try to add a second meat item
 
             Assert.IsFalse(result.Success);
             Assert.AreEqual("Nachos are limited to 1 meat option per meal.", result.Message);
@@ -73,10 +101,10 @@ namespace Tests
         {
             UnitTestItems.ClearSelectedIngredients();
 
-            var nacho = UnitTestItems.NachoItems.ALaCarte;
+            NachoItem nacho = UnitTestItems.NachoItems.ALaCarte;
 
-            _ = nacho.AddIngredient(UnitTestItems.Ingredients.Rice);                        // Add rice
-            ProcessResult result = nacho.AddIngredient(UnitTestItems.Ingredients.Rice);     // Add more rice!
+            _ = nacho.AddIngredient(UnitTestItems.Ingredients.Rice); // Add rice
+            ProcessResult result = nacho.AddIngredient(UnitTestItems.Ingredients.Rice); // Add more rice!
 
             Assert.IsFalse(result.Success);
             Assert.AreEqual("Only 1 serving of rice per meal", result.Message);
@@ -89,13 +117,13 @@ namespace Tests
         {
             UnitTestItems.ClearSelectedIngredients();
 
-            var nacho = UnitTestItems.NachoItems.ThreeIngredientNacho;                              // Allowed: 1 meat, 1 salsa, 1 topping
+            NachoItem nacho = UnitTestItems.NachoItems.ThreeIngredientNacho; // Allowed: 1 meat, 1 salsa, 1 topping
 
-            _ = nacho.AddIngredient(UnitTestItems.Ingredients.Steak);                               // Add 1 meat
-            _ = nacho.AddIngredient(UnitTestItems.Ingredients.Queso);                               // Add 1 salsa
-                                                                                                    // Still allowed to add a topping
+            _ = nacho.AddIngredient(UnitTestItems.Ingredients.Steak); // Add 1 meat
+            _ = nacho.AddIngredient(UnitTestItems.Ingredients.Queso); // Add 1 salsa
+            // Still allowed to add a topping
 
-            ProcessResult result = nacho.AddIngredient(UnitTestItems.Ingredients.GreenSalsa);       // Try to add another salsa
+            ProcessResult result = nacho.AddIngredient(UnitTestItems.Ingredients.GreenSalsa); // Try to add another salsa
 
             Assert.IsFalse(result.Success);
             Assert.AreEqual("Can't add any more of this item!", result.Message);
@@ -103,93 +131,19 @@ namespace Tests
             UnitTestItems.ClearSelectedIngredients();
         }
 
-
         [TestMethod]
         public void AddTortillaWhenNotAllowed()
         {
             UnitTestItems.ClearSelectedIngredients();
 
-            var nacho = UnitTestItems.NachoItems.TwoIngredientNachoInBowl;                  // Tortilla NOT included!
+            NachoItem nacho = UnitTestItems.NachoItems.TwoIngredientNachoInBowl; // Tortilla NOT included!
 
             ProcessResult result = nacho.AddIngredient(UnitTestItems.Ingredients.Tortilla); // Try to add torilla
 
             Assert.IsFalse(result.Success);
             Assert.AreEqual("This product does not include tortilla.", result.Message);
 
-            
             UnitTestItems.ClearSelectedIngredients();
-        }
-
-        [TestMethod]
-        public void SimulateCompleteOrder()
-        {
-            UnitTestItems.ClearSelectedIngredients();
-
-            Order order = UnitTestItems.GetSimulatedOrderItem();
-
-            order.SaveOrder();
-
-            //Check order was saved
-            
-            Order retrievedOrder = new Order(order.OrderId); //Finds order in data store
-
-            Assert.AreEqual(order.OrderId, retrievedOrder.OrderId);   
-            Assert.AreEqual(UnitTestItems.SimulatedOrderItemCost, retrievedOrder.Total);
-        }
-
-
-        [TestMethod]
-        public void AddIncompleteItemToOrder()
-        {
-            UnitTestItems.ClearSelectedIngredients();
-
-            NachoItem nacho = UnitTestItems.NachoItems.TwoIngredientNachoInBowl;        // Create nacho item
-                                                                                        // Don't select any ingredients!
-
-            Order order = new Order();                                                  // Create an order and add the item
-            ProcessResult result = order.AddItem(nacho);
-
-            Assert.IsFalse(result.Success);
-            Assert.AreEqual("Order incomplete! Not enough ingredients.", result.Message);
-
-        }
-
-        [TestMethod]
-        public void AddItemToOrder()
-        {
-            UnitTestItems.ClearSelectedIngredients();
-
-            NachoItem nacho = UnitTestItems.NachoItems.TwoIngredientNachoInBowl;
-            nacho.AddIngredient(UnitTestItems.Ingredients.Chicken);
-            nacho.AddIngredient(UnitTestItems.Ingredients.GreenSalsa);
-
-            Order order = new Order();                                                  
-            ProcessResult result = order.AddItem(nacho);
-
-            Assert.IsTrue(result.Success);
-
-            UnitTestItems.ClearSelectedIngredients();
-
-        }
-
-        [TestMethod]
-        public void RemoveItemFromOrder()
-        {
-            UnitTestItems.ClearSelectedIngredients();
-
-            NachoItem nacho = UnitTestItems.NachoItems.TwoIngredientNachoInBowl;
-            nacho.AddIngredient(UnitTestItems.Ingredients.Chicken);
-            nacho.AddIngredient(UnitTestItems.Ingredients.GreenSalsa);
-
-            Order order = new Order();
-            _ = order.AddItem(nacho);
-
-            ProcessResult result = order.RemoveItem(nacho);
-
-            Assert.IsTrue(result.Success);
-
-            UnitTestItems.ClearSelectedIngredients();
-
         }
 
         [TestMethod]
@@ -209,7 +163,71 @@ namespace Tests
             Assert.AreEqual("Item does not exist in this order.", result.Message);
 
             UnitTestItems.ClearSelectedIngredients();
+        }
 
+        [TestMethod]
+        public void RemoveIngredientSelection()
+        {
+            UnitTestItems.ClearSelectedIngredients();
+
+            NachoItem nacho = UnitTestItems.NachoItems.TwoIngredientNachoInBowl;
+            _ = nacho.AddIngredient(UnitTestItems.Ingredients.Chicken);
+            ProcessResult result = nacho.RemoveIngredient(UnitTestItems.Ingredients.Chicken);
+
+            Assert.IsTrue(result.Success);
+
+            UnitTestItems.ClearSelectedIngredients();
+        }
+
+        [TestMethod]
+        public void RemoveItemFromOrder()
+        {
+            UnitTestItems.ClearSelectedIngredients();
+
+            NachoItem nacho = UnitTestItems.NachoItems.TwoIngredientNachoInBowl;
+            nacho.AddIngredient(UnitTestItems.Ingredients.Chicken);
+            nacho.AddIngredient(UnitTestItems.Ingredients.GreenSalsa);
+
+            Order order = new Order();
+            _ = order.AddItem(nacho);
+
+            ProcessResult result = order.RemoveItem(nacho);
+
+            Assert.IsTrue(result.Success);
+
+            UnitTestItems.ClearSelectedIngredients();
+        }
+
+        [TestMethod]
+        public void RemoveWrongIngredientSelection()
+        {
+            UnitTestItems.ClearSelectedIngredients();
+
+            NachoItem nacho = UnitTestItems.NachoItems.TwoIngredientNachoInBowl;
+            _ = nacho.AddIngredient(UnitTestItems.Ingredients.Chicken);
+            ProcessResult result = nacho.RemoveIngredient(UnitTestItems.Ingredients.Steak); //doesn't exist!
+
+            Assert.IsFalse(result.Success);
+            Assert.AreEqual("This ingredient was not added to this menu item.", result.Message);
+
+            UnitTestItems.ClearSelectedIngredients();
+        }
+
+        [TestMethod]
+        public void SimulateCompleteOrder()
+        {
+            UnitTestItems.ClearSelectedIngredients();
+
+            Order order = UnitTestItems.GetSimulatedOrderItem();
+
+            order.SaveOrder();
+
+            //Check order was saved
+
+            Order retrievedOrder = new Order(order.OrderId); //Finds order in data store
+
+            Assert.AreEqual(order.OrderId, retrievedOrder.OrderId);
+            Assert.AreEqual(UnitTestItems.SimulatedOrderItemCost, retrievedOrder.Total);
         }
 
         [TestMethod]
@@ -220,7 +238,6 @@ namespace Tests
             Order order = UnitTestItems.GetSimulatedOrderItem();
 
             List<SubTotal> subtotals = order.GetSubTotals();
-
 
             //Subtotals should return as below. Ingredient items are ordered by price high to low
 
@@ -234,7 +251,7 @@ namespace Tests
             // Queso, Amount 1, Cost 150
             // Chicken, Amount 1, Cost 0
             // Grated Cheese, Amount 1, Cost 0
-            // 
+            //
             // Item[2] (a-la-carte)
             // Base Price 599
             // Steak, Amount 2, Cost 50
@@ -277,7 +294,6 @@ namespace Tests
             Assert.AreEqual(0, subtotals[2].SelectedIngredientsInfo[4].Cost);
 
             UnitTestItems.ClearSelectedIngredients();
-
         }
 
         #endregion Methods
